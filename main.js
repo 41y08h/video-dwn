@@ -1,7 +1,7 @@
 const axios = require("axios");
 const { URL } = require("url");
 const config = require("./config.json");
-const fs = require("fs");
+const { spawn } = require("promisify-child-process");
 
 const contentTypes = ["videos", "DppVideos"];
 
@@ -51,7 +51,12 @@ async function main() {
 
   for (const tag of tags) {
     const tagVideoURLs = await getVideoURLsForTag(tag);
-    fs.writeFileSync(`./download_links/${tag}`, tagVideoURLs.join("\n"));
+
+    await spawn("python", [
+      "./messenger.py",
+      JSON.stringify({ length: tagVideoURLs.length, tag }),
+      ...tagVideoURLs,
+    ]);
   }
 }
 
