@@ -61,8 +61,30 @@ async function main() {
 
   const data = chunkArray(tags, botMessages);
   for (const chapter of data) {
-    writeDownloadFile(chapter.data, chapter.tag);
+    if (chapter.data.length > 0) {
+      writeDownloadFile(chapter.data, chapter.tag);
+    }
   }
+
+  // fs.writeFileSync(
+  //   "physics-links.json",
+  //   JSON.stringify(processUserMessages(userMessages), null, 2)
+  // );
 }
 
+function processUserMessages(array) {
+  const groups = {};
+  let currentTag = "";
+  for (let i = 0; i < array.length; i++) {
+    const obj = array[i];
+    if (obj.isMetaData) {
+      const metadata = JSON.parse(obj.text);
+      currentTag = metadata.tag;
+      groups[currentTag] = [];
+    } else {
+      groups[currentTag].push(obj.text);
+    }
+  }
+  return groups;
+}
 main();

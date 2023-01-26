@@ -7,7 +7,7 @@ const contentTypes = ["videos", "DppVideos"];
 
 async function getVideoURLForContentType(tag, contentType) {
   const res = await axios.get(
-    "https://api.penpencil.co/v2/batches/class-12th--lakshya-neet-443931/subject/biology-055944/contents",
+    "https://api.penpencil.co/v2/batches/class-12th--lakshya-neet-443931/subject/chemistry-326756/contents",
     {
       params: {
         page: 1,
